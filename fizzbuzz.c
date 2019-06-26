@@ -88,7 +88,7 @@ void playFizzbuzz(int start, int end, struct FizzBuzzConfig config) {
 }
 
 void handleInputError() {
-	printf("Please enter a number greater than 0 with 10 or fewer digits\n");
+	printf("Please enter a number greater than 0 with %d or fewer digits\n", MAX_END_NUMBER_DIGITS);
 }
 
 int main(int argc, char **argv) {
