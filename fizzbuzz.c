@@ -6,10 +6,11 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-#define MAX_INPUT_LENGTH 20
+#define MAX_STRING_ARG_LENGTH 20
+#define MAX_END_NUMBER_DIGITS 10
 
 struct FizzBuzzConfig {
-	char fizz[MAX_INPUT_LENGTH], buzz[MAX_INPUT_LENGTH];
+	char fizz[MAX_STRING_ARG_LENGTH], buzz[MAX_STRING_ARG_LENGTH];
 	bool valid;
 };
 
@@ -20,16 +21,16 @@ void processOptions(int argc, char **argv, struct FizzBuzzConfig *config) {
 	    switch (opt)
 	      {
 		      case 'f':
-		      	if(strlen(optarg) > MAX_INPUT_LENGTH) {
-		      		fprintf(stderr, "Option -f has a max length of %d characters\n", MAX_INPUT_LENGTH);
+		      	if(strlen(optarg) > MAX_STRING_ARG_LENGTH) {
+		      		fprintf(stderr, "Option -f has a max length of %d characters\n", MAX_STRING_ARG_LENGTH);
 		      		config->valid = false;
 		      	} else {
 		      		strcpy(config->fizz, optarg);
 		      	}
 		        break;
 		      case 'b':
-		        if(strlen(optarg) > MAX_INPUT_LENGTH) {
-		      		fprintf(stderr, "Option -b has a max length of %d characters\n", MAX_INPUT_LENGTH);
+		        if(strlen(optarg) > MAX_STRING_ARG_LENGTH) {
+		      		fprintf(stderr, "Option -b has a max length of %d characters\n", MAX_STRING_ARG_LENGTH);
 		      		config->valid = false;
 		      	} else {
 		      		strcpy(config->buzz, optarg);
@@ -40,6 +41,7 @@ void processOptions(int argc, char **argv, struct FizzBuzzConfig *config) {
 		          fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 		   		  config->valid = false;
 		        }
+		        break;
 		      default:
 		        abort();
 	      }
@@ -56,12 +58,13 @@ void printIntro(struct FizzBuzzConfig config) {
 }
 
 int getStopNumberFromUser() {
-	char unprocessedInput[10];
+	char unprocessedInput[MAX_END_NUMBER_DIGITS];
 
-	printf("How high should I count? (must be greater than 0 and have fewer than %d digits; any whitespace constitutes end of input): ", MAX_INPUT_LENGTH);
+	printf("How high should I count? (must be greater than 0 and have fewer than %d digits; any whitespace constitutes end of input): ", MAX_END_NUMBER_DIGITS);
+    // TODO: prevent inputs with greater length than MAX_END_NUMBER_DIGITS
     scanf("%s", unprocessedInput);
 
-    int result = strtol(unprocessedInput, NULL, MAX_INPUT_LENGTH);
+    int result = strtol(unprocessedInput, NULL, 10);
 
     if(errno == ERANGE) {
     	printf("range error, got %d\n", result);
