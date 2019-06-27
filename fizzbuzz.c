@@ -21,10 +21,8 @@ void processOptions(int argc, char **argv, struct FizzBuzzConfig *config) {
 		{0, 0, 0, 0}
 	};
 
-	int opt;
-
 	while (true) {
-		opt = getopt_long (argc, argv, "f:b:", longOpts, NULL);
+		int opt = getopt_long (argc, argv, "f:b:", longOpts, NULL);
 
 		// end of options, break out of loop
 		if (opt == -1) break;
@@ -97,10 +95,6 @@ void playFizzbuzz(int start, int end, struct FizzBuzzConfig config) {
 	}
 }
 
-void handleInputError() {
-	printf("Please enter a number greater than 0 with %d or fewer digits\n", MAX_END_NUMBER_DIGITS);
-}
-
 int main(int argc, char **argv) {
 	// this is the default config, will be overwritten with
 	// the values of any options passed
@@ -115,7 +109,7 @@ int main(int argc, char **argv) {
 		if (end > 0) {
 			playFizzbuzz(1, end, config);
 		} else {
-			handleInputError();
+			printf("Please enter a number greater than 0 with %d or fewer digits\n", MAX_END_NUMBER_DIGITS);
 		}
 	}
 }
