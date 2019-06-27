@@ -21,4 +21,4 @@ Tested with gcc 7.4.0 on Ubuntu 18.04.2: `gcc ./fizzbuzz.c -o fizzbuzz.out`
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE)
