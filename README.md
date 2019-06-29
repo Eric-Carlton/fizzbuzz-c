@@ -6,8 +6,8 @@ A learning project in C. Typical FizzBuzz program that asks user for a number to
 
 ## Options
 
-| Short | Long   | Required? | Usage                                                                                                  |
-|:------|:-------|:----------|:-------------------------------------------------------------------------------------------------------|
+| Short | Long   | Required? | Usage                                                                    |
+|:------|:-------|:----------|:-------------------------------------------------------------------------|
 | -f    | --fizz | N         | Gives the option to change what is printed when a number divisible by 3. |
 | -b    | --buzz | N         | Gives the option to change what is printed when a number divisible by 5. |
 
