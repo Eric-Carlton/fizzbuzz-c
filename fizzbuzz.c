@@ -61,17 +61,17 @@ unsigned int getStopNumberFromUser() {
 	int userInputChar = EOF;
 
 	while (( userInputChar = getchar() ) != '\n' && userInputChar != EOF) {
-		unprocessedInput[i++]=(char)userInputChar;
+		unprocessedInput[i++] = (char)userInputChar;
 
 		// we've reached the max input size, need to allocate more memory
-		if(i == currentLength) {
-            currentLength = i+maxLength;
+		if (i == currentLength) {
+			currentLength = i + maxLength;
 			unprocessedInput = realloc(unprocessedInput, currentLength);
 		}
 	}
-	
+
 	unprocessedInput[i] = '\0';
-    
+
 	unsigned int result = strtol(unprocessedInput, NULL, 10);
 
 	free(unprocessedInput);
