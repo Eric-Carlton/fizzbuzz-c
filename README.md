@@ -8,8 +8,8 @@ A learning project in C. Typical FizzBuzz program that asks user for a number to
 
 | Short | Long   | Required? | Usage                                                                                                  |
 |:------|:-------|:----------|:-------------------------------------------------------------------------------------------------------|
-| -f    | --fizz | N         | Gives the option to change what is printed when a number divisible by 3. Must be 20 characters or less |
-| -b    | --buzz | N         | Gives the option to change what is printed when a number divisible by 5. Must be 20 characters or less |
+| -f    | --fizz | N         | Gives the option to change what is printed when a number divisible by 3. |
+| -b    | --buzz | N         | Gives the option to change what is printed when a number divisible by 5. |
 
 ## Build
 

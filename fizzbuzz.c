@@ -1,23 +1,22 @@
-#include <stdio.h> // printf, fprintf, scanf
+#include <stdio.h> // printf, fprintf
 #include <stdlib.h> // system, abort, strtol
-#include <errno.h> // errno, ERANGE
+#include <errno.h> // errno
 #include <getopt.h> // getopt_long
 #include <string.h> // strcpy, strlen
 #include <stdbool.h> // true / false
 
-#define MAX_STRING_ARG_LENGTH 20
 #define MAX_END_NUMBER_DIGITS 10
 
 struct FizzBuzzConfig {
-	char fizz[MAX_STRING_ARG_LENGTH], buzz[MAX_STRING_ARG_LENGTH];
+	char *fizz, *buzz;
 	bool valid;
 };
 
 void processOptions(int argc, char **argv, struct FizzBuzzConfig *config) {
 	struct option longOpts[] =
 	{
-		{"fizz",  required_argument, 0, 'f'},
-		{"buzz",    required_argument, 0, 'b'},
+		{"fizz", required_argument, 0, 'f'},
+		{"buzz", required_argument, 0, 'b'},
 		{0, 0, 0, 0}
 	};
 
@@ -29,20 +28,10 @@ void processOptions(int argc, char **argv, struct FizzBuzzConfig *config) {
 
 		switch (opt) {
 		case 'f':
-			if (strlen(optarg) > MAX_STRING_ARG_LENGTH) {
-				fprintf(stderr, "Option -f has a max length of %d characters\n", MAX_STRING_ARG_LENGTH);
-				config->valid = false;
-			} else {
-				strcpy(config->fizz, optarg);
-			}
+			config->fizz = optarg;
 			break;
 		case 'b':
-			if (strlen(optarg) > MAX_STRING_ARG_LENGTH) {
-				fprintf(stderr, "Option -b has a max length of %d characters\n", MAX_STRING_ARG_LENGTH);
-				config->valid = false;
-			} else {
-				strcpy(config->buzz, optarg);
-			}
+			config->buzz = optarg;
 			break;
 		case '?':
 			if (optopt == 'f' || optopt == 'b') {
@@ -65,24 +54,36 @@ void printIntro(struct FizzBuzzConfig config) {
 	printf("\n");
 }
 
-int getStopNumberFromUser() {
-	char unprocessedInput[MAX_END_NUMBER_DIGITS];
+unsigned int getStopNumberFromUser() {
+	printf("How high should I count? (must be greater than 0; any whitespace constitutes end of input): ");
 
-	printf("How high should I count? (must be greater than 0 and have fewer than %d digits; any whitespace constitutes end of input): ", MAX_END_NUMBER_DIGITS);
-	// TODO: prevent inputs with greater length than MAX_END_NUMBER_DIGITS
-	scanf("%s", unprocessedInput);
+	unsigned int maxLength = 4;
+	unsigned int currentLength, i = 0;
+	char *unprocessedInput = malloc(maxLength);
+	int userInputChar = EOF;
 
-	int result = strtol(unprocessedInput, NULL, 10);
+	while (( userInputChar = getchar() ) != '\n' && userInputChar != EOF) {
+		unprocessedInput[i++]=(char)userInputChar;
 
-	if (errno == ERANGE) {
-		printf("range error, got %d\n", result);
-		return -1;
+		// we've reached the max input size, need to allocate more memory
+		if(i == currentLength) {
+            currentLength = i+maxLength;
+			unprocessedInput = realloc(unprocessedInput, currentLength);
+		}
 	}
+	
+	unprocessedInput[i] = '\0';
+    
+	unsigned int result = strtol(unprocessedInput, NULL, 10);
+
+	// allocated with alloc, so we need to manually free
+	free(unprocessedInput);
+	unprocessedInput = NULL;
 
 	return result;
 }
 
-void playFizzbuzz(int start, int end, struct FizzBuzzConfig config) {
+void playFizzbuzz(int start, unsigned int end, struct FizzBuzzConfig config) {
 	for (int i = start; i <= end; i++) {
 		printf("%d: ", i);
 		if (i % 3 == 0) {
