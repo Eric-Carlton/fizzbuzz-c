@@ -5,8 +5,6 @@
 #include <string.h> // strcpy, strlen
 #include <stdbool.h> // true / false
 
-#define MAX_END_NUMBER_DIGITS 10
-
 struct FizzBuzzConfig {
 	char *fizz, *buzz;
 	bool valid;
@@ -110,7 +108,7 @@ int main(int argc, char **argv) {
 		if (end > 0) {
 			playFizzbuzz(1, end, config);
 		} else {
-			printf("Please enter a number greater than 0 with %d or fewer digits\n", MAX_END_NUMBER_DIGITS);
+			printf("Please enter a number greater than 0\n");
 		}
 	}
 }
