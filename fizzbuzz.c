@@ -74,7 +74,6 @@ unsigned int getStopNumberFromUser() {
     
 	unsigned int result = strtol(unprocessedInput, NULL, 10);
 
-	// allocated with alloc, so we need to manually free
 	free(unprocessedInput);
 	unprocessedInput = NULL;
 
